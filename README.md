@@ -74,7 +74,7 @@ grandChild.enabled("warn"); // true
 
 ## Prefix
 
-It's to know where your logs are coming from:
+It's nice to know where your logs are coming from:
 
 ```javascript
 var log = require("chained-logger").create("[server] ");

@@ -1,0 +1,23 @@
+{
+  "name": "chained-logger",
+  "version": "0.0.0",
+  "description": "logging library designed to be used with standard 12 factor 'log to stdout' methods, and as close to `console` as possible. loggers chain their parents prefix and log level",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:timruffles/chained-logger.git"
+  },
+  "keywords": [
+    "logging",
+    "log"
+  ],
+  "author": "Tim Ruffles <timruffles@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/timruffles/little-logger/issues"
+  },
+  "homepage": "https://github.com/timruffles/chained-logger"
+}

@@ -1,6 +1,8 @@
 # ChainedLogger
 
-Logging library designed to be used with standard 12 factor 'log to stdout' methods, and as close to `console` as possible. Loggers chain their parent's prefix and log level.
+Hierarchical logging library as close to `console` as possible. Works in node and the browser.
+
+Log settings are inherited prototypically. If you want to make changes to all loggers not specifying their own `logLevel`, simply set it at the top level.
 
 `debug` is provided as a synonym for `info`.
 
@@ -21,6 +23,13 @@ if(process.env.LOG_LEVEL) {
 }
 ```
 
+To configure the logging output on a logger, for instance to forward over UDP or disable logging, set `log. There is a `NULL_CONSOLE` already provided:
+
+```javascript
+var log = require("chained-logger");
+log.console = log.NULL_CONSOLE;
+```
+
 ## Install
 
 Node:
@@ -34,7 +43,7 @@ Browser:
 ```javascript
 <script src=chained-logger.js></script>
 <script>
-// exposed as window.chainedLogger;
+// exposed globally as chainedLogger;
 </script>
 ```
 
@@ -56,7 +65,7 @@ The order is DEBUG < LOG < WARN < ERROR.
 
 ### Inheritence
 
-Log-level is inherited from the neartest parent logger with a log-level set. To create a child logger use `logger.create()`.
+Log-level and console are inherited from the neartest parent logger with a log-level set. To create a child logger use `logger.create()`.
 
 ```javascript
 var log = require("chained-logger");
@@ -72,7 +81,7 @@ child.setLogLevel("warn");
 grandChild.enabled("warn"); // true
 ```
 
-## Prefix
+## Prefixing
 
 It's nice to know where your logs are coming from:
 

@@ -1,5 +1,6 @@
 ;(function() {
 
+// numeric to allow precedence check
 var INFO = 0;
 var LOG = 1;
 var WARN = 2;
@@ -20,6 +21,7 @@ function Log(prefix, level) {
   }
 }
 
+
 Object.keys(methodsToLevels).forEach(function(method) {
 
   var orignalMethodName = getMethodName(method);
@@ -28,10 +30,11 @@ Object.keys(methodsToLevels).forEach(function(method) {
     if(methodsToLevels[method] >= this.logLevel) {
       var rest = [].slice.call(arguments,1);
       var first = arguments[0];
-      console[orignalMethodName].apply(console,[this.prefix + first].concat(rest));
+      this.console[orignalMethodName].apply(this.console, [this.prefix + first].concat(rest));
     }
   }
 });
+
 
 Log.prototype.enabled = function(method) {
     return nameToLevel(method) >= this.logLevel;
@@ -42,6 +45,7 @@ Log.prototype.setLogLevel = function(method) {
 };
 
 Log.prototype.logLevel = LOG;
+Log.prototype.console = console;
 
 Log.prototype.create = function(pref, level) {
   var log = Object.create(this);
@@ -50,20 +54,21 @@ Log.prototype.create = function(pref, level) {
 };
 
 
-var defaultLogger = new Log();
+var ROOT_LOGGER = new Log();
+
+
+ROOT_LOGGER.NULL_CONSOLE = Object.keys(methodsToLevels).reduce(function(h, k) {
+  h[k] = Function.prototype;
+  return h;
+}, {});
 
 if(typeof module != "undefined") {
-  module.exports = defaultLogger;
+  module.exports = ROOT_LOGGER;
 } else {
-  window.chainedLogger = defaultLogger; 
+  window.chainedLogger = ROOT_LOGGER; 
 }
 
 
-// to support aliases like debug
-function getMethodName(method) {
-  if(method === "debug") return "info";
-  return method;
-}
 function nameToLevel(method) {
   method = getMethodName(method);
   var level = methodsToLevels[method];
@@ -71,6 +76,12 @@ function nameToLevel(method) {
     throw new Error("Unknown log level " + method);
   }
   return level;
+}
+
+// to support aliases like debug
+function getMethodName(method) {
+  if(method === "debug") return "info";
+  return method;
 }
 
 })();

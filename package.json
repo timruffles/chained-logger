@@ -1,11 +1,12 @@
 {
   "name": "chained-logger",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "logging library designed to be used with standard 12 factor 'log to stdout' methods, and as close to `console` as possible. loggers chain their parents prefix and log level",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "files": ["index.js", "README.md"],
   "repository": {
     "type": "git",
     "url": "git@github.com:timruffles/chained-logger.git"
